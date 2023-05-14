@@ -1,0 +1,2 @@
+# BiteBuddy
+HexOcean recruitment task
