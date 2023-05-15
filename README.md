@@ -1,9 +1,13 @@
 # BiteBuddy
 HexOcean recruitment task
 
-## Info
-- Node version: 18.15.0
-- npm version: 9.5.0
+## Features
+
+- Create and submit dishes with ease
+- Choose from different dish types: pizza, soup, or sandwich
+- Input dish details like name, preparation time, and specific details based on the dish type
+- Get real-time validation errors for form submission
+- Submit dish data via a POST request in JSON format
 
 ## Stack
 
@@ -13,6 +17,8 @@ HexOcean recruitment task
 - Yup
 - MaterialUI
 - Vite
+- Node version: 18.15.0
+- npm version: 9.5.0
 
 ## Running a project
 
@@ -24,3 +30,6 @@ To run the application, type `npm run dev` in the console.
 
 The application should open automatically on port 3000.
 
+## Demo
+
+https://bite-buddy.netlify.app/
