@@ -1,6 +1,8 @@
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Grid, TextField, MenuItem, Button } from '@mui/material';
 import { ProductType } from '../../../types/ProductType';
+import { ProductSchema } from '../../../schemas/ProductSchema';
 
 const ProductsForm = () => {
   const {
@@ -10,7 +12,9 @@ const ProductsForm = () => {
     control,
     watch,
     formState: { errors },
-  } = useForm<ProductType>();
+  } = useForm<ProductType>({
+    resolver: yupResolver(ProductSchema),
+  });
   const selectedType = watch('type');
 
   const onSubmit: SubmitHandler<ProductType> = (data) => console.log(data);
@@ -37,6 +41,8 @@ const ProductsForm = () => {
             label='Dish name'
             type='text'
             {...register('name', { required: true, minLength: 1 })}
+            error={!!errors.name?.message}
+            helperText={errors.name?.message}
           />
         </Grid>
         <Grid item xs={12}>
@@ -51,6 +57,8 @@ const ProductsForm = () => {
             }}
             InputLabelProps={{ shrink: true }}
             {...register('preparation_time', { required: true })}
+            error={!!errors.preparation_time?.message}
+            helperText={errors.preparation_time?.message}
           />
         </Grid>
         <Grid item xs={12}>
@@ -65,6 +73,8 @@ const ProductsForm = () => {
                 fullWidth
                 id='type'
                 label='Dish Type'
+                error={!!errors.type?.message}
+                helperText={errors.type?.message}
                 {...field}>
                 {MenuItems.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
@@ -86,6 +96,8 @@ const ProductsForm = () => {
                 type='number'
                 inputProps={{ min: 1 }}
                 {...register('no_of_slices', { required: true, min: 1 })}
+                error={!!errors.no_of_slices?.message}
+                helperText={errors.no_of_slices?.message}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -97,6 +109,8 @@ const ProductsForm = () => {
                 type='number'
                 inputProps={{ min: 0.1, step: 0.1 }}
                 {...register('diameter', { required: true, min: 0.1 })}
+                error={!!errors.diameter?.message}
+                helperText={errors.diameter?.message}
               />
             </Grid>
           </>
@@ -115,6 +129,8 @@ const ProductsForm = () => {
                 min: 1,
                 max: 10,
               })}
+              error={!!errors.spiciness_scale?.message}
+              helperText={errors.spiciness_scale?.message}
             />
           </Grid>
         )}
@@ -128,6 +144,8 @@ const ProductsForm = () => {
               type='number'
               inputProps={{ min: 1 }}
               {...register('slices_of_bread', { required: true, min: 1 })}
+              error={!!errors.slices_of_bread?.message}
+              helperText={errors.slices_of_bread?.message}
             />
           </Grid>
         )}
