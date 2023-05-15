@@ -3,8 +3,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Grid, TextField, MenuItem, Button } from '@mui/material';
 import { ProductType } from '../../../types/ProductType';
 import { ProductSchema } from '../../../schemas/ProductSchema';
+import usePostData from './hooks/usePostData';
+
+const URL = 'https://umzzcc503l.execute-api.us-west-2.amazonaws.com/dishes/';
 
 const ProductsForm = () => {
+  const postData = usePostData();
+
   const {
     register,
     handleSubmit,
@@ -17,7 +22,11 @@ const ProductsForm = () => {
   });
   const selectedType = watch('type');
 
-  const onSubmit: SubmitHandler<ProductType> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<ProductType> = async (data) => {
+    console.log(data);
+    const resData = await postData(data, URL);
+    console.log(resData);
+  };
   console.log(errors);
 
   const handleCancel = () => {
