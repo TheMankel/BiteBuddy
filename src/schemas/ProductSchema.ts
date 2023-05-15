@@ -30,7 +30,7 @@ export const ProductSchema = object().shape({
       then: (schema) =>
         schema
           .required('Please provide a diameter')
-          .min(1, 'Must be at least 0,1'),
+          .min(0.1, 'Must be at least 0,1'),
     }),
   spiciness_scale: number()
     .transform((value) => (isNaN(value) ? undefined : value))
