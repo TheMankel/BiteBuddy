@@ -8,8 +8,10 @@ const ProductsForm = () => {
     handleSubmit,
     reset,
     control,
+    watch,
     formState: { errors },
   } = useForm<ProductType>();
+  const selectedType = watch('type');
 
   const onSubmit: SubmitHandler<ProductType> = (data) => console.log(data);
   console.log(errors);
@@ -25,7 +27,7 @@ const ProductsForm = () => {
   ];
 
   return (
-    <Box component='form' onSubmit={handleSubmit(onSubmit)} noValidate>
+    <Box component='form' mt={2} onSubmit={handleSubmit(onSubmit)} noValidate>
       <Grid container spacing={3} marginBottom={3}>
         <Grid item xs={12}>
           <TextField
@@ -73,6 +75,62 @@ const ProductsForm = () => {
             )}
           />
         </Grid>
+        {selectedType === 'pizza' && (
+          <>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                fullWidth
+                id='no_of_slices'
+                label='Number Of Slices'
+                type='number'
+                inputProps={{ min: 1 }}
+                {...register('no_of_slices', { required: true, min: 1 })}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                fullWidth
+                id='diameter'
+                label='Diameter'
+                type='number'
+                inputProps={{ min: 0.1, step: 0.1 }}
+                {...register('diameter', { required: true, min: 0.1 })}
+              />
+            </Grid>
+          </>
+        )}
+        {selectedType === 'soup' && (
+          <Grid item xs={12}>
+            <TextField
+              required
+              fullWidth
+              id='spiciness_scale'
+              label='Spiciness Scale'
+              type='number'
+              inputProps={{ min: 1, max: 10 }}
+              {...register('spiciness_scale', {
+                required: true,
+                min: 1,
+                max: 10,
+              })}
+            />
+          </Grid>
+        )}
+        {selectedType === 'sandwich' && (
+          <Grid item xs={12}>
+            <TextField
+              required
+              fullWidth
+              id='slices_of_bread'
+              label='Number Of Slices'
+              type='number'
+              inputProps={{ min: 1 }}
+              {...register('slices_of_bread', { required: true, min: 1 })}
+            />
+          </Grid>
+        )}
       </Grid>
       <Grid container spacing={2}>
         <Grid item xs={6}>
