@@ -1,4 +1,5 @@
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import { Box, Grid, TextField, MenuItem, Button } from '@mui/material';
 import { ProductType } from '../../../types/ProductType';
 
 const ProductsForm = () => {
@@ -6,6 +7,7 @@ const ProductsForm = () => {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm<ProductType>();
 
@@ -16,30 +18,75 @@ const ProductsForm = () => {
     reset();
   };
 
+  const MenuItems = [
+    { label: 'Pizza', value: 'pizza' },
+    { label: 'Soup', value: 'soup' },
+    { label: 'Sandwich', value: 'sandwich' },
+  ];
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input
-        type='text'
-        placeholder='Name'
-        {...register('name', { required: true, minLength: 1 })}
-      />
-      <input
-        type='time'
-        placeholder='Preparation Time'
-        step={1}
-        {...register('preparation_time', { required: true })}
-      />
-      <select {...register('type', { required: true })}>
-        <option value=''>Type</option>
-        <option value='pizza'>Pizza</option>
-        <option value='soup'>Soup</option>
-        <option value='sandwich'>Sandwich</option>
-      </select>
-      <button type='button' onClick={handleCancel}>
-        Cancel
-      </button>
-      <button type='submit'>Submit</button>
-    </form>
+    <Box component='form' onSubmit={handleSubmit(onSubmit)} noValidate>
+      <Grid container spacing={3} marginBottom={3}>
+        <Grid item xs={12}>
+          <TextField
+            required
+            fullWidth
+            id='name'
+            label='Dish name'
+            type='text'
+            {...register('name', { required: true, minLength: 1 })}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            required
+            fullWidth
+            id='preparation_time'
+            label='Preparation Time'
+            type='time'
+            inputProps={{
+              step: 1,
+            }}
+            InputLabelProps={{ shrink: true }}
+            {...register('preparation_time', { required: true })}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Controller
+            control={control}
+            name='type'
+            rules={{ required: true }}
+            defaultValue={''}
+            render={({ field }) => (
+              <TextField
+                select
+                fullWidth
+                id='type'
+                label='Dish Type'
+                {...field}>
+                {MenuItems.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            )}
+          />
+        </Grid>
+      </Grid>
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <Button fullWidth variant='outlined' onClick={handleCancel}>
+            Cancel
+          </Button>
+        </Grid>
+        <Grid item xs={6}>
+          <Button fullWidth variant='contained' type='submit'>
+            Submit
+          </Button>
+        </Grid>
+      </Grid>
+    </Box>
   );
 };
 
