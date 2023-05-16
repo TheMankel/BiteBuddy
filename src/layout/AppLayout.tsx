@@ -14,7 +14,7 @@ const AppLayout = ({ children }: IChildrenProps) => {
         minHeight: '100vh',
       }}>
       <CssBaseline />
-      <Container component='main' maxWidth='sm'>
+      <Container component='main' maxWidth='sm' sx={{ mt: 4 }}>
         {children}
       </Container>
       <Footer />
