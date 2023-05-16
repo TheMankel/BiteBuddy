@@ -1,14 +1,32 @@
+import { useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Grid, TextField, MenuItem, Button } from '@mui/material';
+import {
+  Box,
+  Grid,
+  TextField,
+  MenuItem,
+  Button,
+  Typography,
+} from '@mui/material';
 import { ProductType } from '../../../types/ProductType';
 import { ProductSchema } from '../../../schemas/ProductSchema';
 import usePostData from './hooks/usePostData';
+import { useModal } from '../../../hooks/useModal';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+
+type Response = {
+  message: string;
+  status: 'success' | 'error';
+};
 
 const URL = 'https://umzzcc503l.execute-api.us-west-2.amazonaws.com/dishes/';
 
 const ProductsForm = () => {
   const postData = usePostData();
+  const { openModal, closeModal, ModalComponent } = useModal();
+  const [response, setResponse] = useState<Response>();
 
   const {
     register,
@@ -26,10 +44,23 @@ const ProductsForm = () => {
     console.log(data);
     const resData = await postData(data, URL);
     console.log(resData);
+    if (typeof resData === 'string') {
+      setResponse({
+        message: 'Something went wrong. Try again later',
+        status: 'error',
+      });
+    } else {
+      setResponse({
+        message: JSON.stringify(resData, null, 2),
+        status: 'success',
+      });
+      reset();
+    }
+    openModal();
   };
-  console.log(errors);
 
   const handleCancel = () => {
+    closeModal();
     reset();
   };
 
@@ -171,6 +202,23 @@ const ProductsForm = () => {
           </Button>
         </Grid>
       </Grid>
+      <ModalComponent title='Response'>
+        <Box
+          p={3}
+          display='flex'
+          justifyContent='space-around'
+          alignItems='center'
+          gap={1}>
+          {response?.status === 'success' ? (
+            <CheckCircleIcon fontSize='large' sx={{ color: 'success.main' }} />
+          ) : (
+            <ErrorIcon fontSize='large' sx={{ color: 'error.main' }} />
+          )}
+          <Typography sx={{ whiteSpace: 'pre-line' }}>
+            {response?.message}
+          </Typography>
+        </Box>
+      </ModalComponent>
     </Box>
   );
 };
