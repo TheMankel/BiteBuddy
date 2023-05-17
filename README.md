@@ -1,5 +1,7 @@
 # BiteBuddy
-HexOcean recruitment task
+HexOcean recruitment task. 
+
+It took me about 8 hours to complete the task.
 
 ## Features
 
@@ -22,7 +24,7 @@ HexOcean recruitment task
 
 ## Running a project
 
-To run this repository you must have `node` or any other package manager installed globally on your computer.
+To run this repository you must have `node` or any `npm` installed globally on your computer.
 
 Then just run `npm install` to install all the necessary dependencies.
 
