@@ -41,9 +41,7 @@ const ProductsForm = () => {
   const selectedType = watch('type');
 
   const onSubmit: SubmitHandler<ProductType> = async (data) => {
-    console.log(data);
     const resData = await postData(data, URL);
-    console.log(resData);
     if (typeof resData === 'string') {
       setResponse({
         message: 'Something went wrong. Try again later',
