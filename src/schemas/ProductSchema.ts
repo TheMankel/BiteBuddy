@@ -1,7 +1,7 @@
 import { object, string, number } from 'yup';
 
 export const ProductSchema = object().shape({
-  name: string().trim().required('Please provide a dish name').min(1),
+  name: string().trim().required('Please provide a dish name').min(3),
   preparation_time: string()
     .required('Please provide a preparation time')
     .matches(
